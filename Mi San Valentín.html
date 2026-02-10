@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>San Valentín</title>
+<style>
+    * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; height: 100vh; background: #ffdeeb; display: flex; justify-content: center; align-items: center; font-family: 'Courier New', monospace; overflow: hidden; }
+    
+    .card {
+        width: 90%; max-width: 350px; background: #fff0f6; border: 4px solid #000;
+        box-shadow: 8px 8px 0 #000; padding: 20px; text-align: center; position: relative;
+    }
+
+    .game-area {
+        height: 350px; border: 3px dashed #000; position: relative; 
+        margin-top: 15px; background: white; overflow: hidden;
+    }
+
+    .btn {
+        padding: 15px; font-size: 18px; font-weight: bold; border: 4px solid #000;
+        box-shadow: 4px 4px 0 #000; cursor: pointer; position: absolute;
+        display: flex; align-items: center; justify-content: center;
+    }
+
+    #btnSi {
+        background: #ff4d6d; color: white; width: 100px;
+        left: 50%; top: 50%; transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+
+    #btnNo {
+        background: #6c757d; color: white; width: 85px;
+        right: 10px; top: 10px; z-index: 20;
+    }
+
+    .msg {
+        position: absolute; background: #fff100; border: 2px solid #000;
+        padding: 5px 10px; font-size: 14px; font-weight: bold; display: none; z-index: 30;
+        white-space: nowrap;
+    }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+    <h2 style="color: #d63384; margin: 0;">My Valentine 💖</h2>
+    <p style="color: #ff4d6d; font-weight: bold;">¿Quieres ser mi San Valentín?</p>
+    
+    <div class="game-area" id="area">
+        <div id="burbuja" class="msg"></div>
+        <button id="btnSi" class="btn" onclick="aceptar()">SÍ</button>
+        <button id="btnNo" class="btn" onmouseover="huir()" ontouchstart="huir(event)">NO</button>
+    </div>
+</div>
+
+<script>
+    const btnNo = document.getElementById('btnNo');
+    const btnSi = document.getElementById('btnSi');
+    const area = document.getElementById('area');
+    const burbuja = document.getElementById('burbuja');
+    let escala = 1;
+
+    // Lista de frases variadas
+    const frases = [
+        "¡Casi! ✨",
+        "¡Intenta de nuevo! 😜",
+        "¡Nop! 🚫",
+        "¡Por aquí no! 🏃‍♂️",
+        "¿Tan rápido? 💨",
+        "¡Ups! 🤭",
+        "¡Te falta velocidad! 🐢",
+        "¡Frío, frío! ❄️",
+        "¡Ni lo pienses! 🙅‍♂️",
+        "¡Ándale, di que sí! 💖"
+    ];
+
+    function huir(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Mover botón NO a posición aleatoria
+        const x = Math.random() * (area.clientWidth - btnNo.offsetWidth);
+        const y = Math.random() * (area.clientHeight - btnNo.offsetHeight);
+        btnNo.style.left = x + 'px';
+        btnNo.style.top = y + 'px';
+
+        // Hacer que el SÍ crezca cada vez más
+        escala += 0.2;
+        btnSi.style.transform = `translate(-50%, -50%) scale(${escala})`;
+
+        // Mostrar burbuja con frase aleatoria
+        burbuja.style.display = 'block';
+        burbuja.innerText = frases[Math.floor(Math.random() * frases.length)];
+        burbuja.style.left = x + 'px';
+        burbuja.style.top = (y - 40) + 'px';
+    }
+
+    function aceptar() {
+        // Pantalla final de éxito
+        document.getElementById('card').innerHTML = `
+            <div style="padding: 50px 10px;">
+                <h1 style="color: #d63384; font-size: 3rem; margin: 0;">¡SÍÍÍ! 😍</h1>
+                <p style="font-size: 1.5rem; color: #ff4d6d; margin-top: 20px;">
+                    ¡Sabía que no podías resistirte! ❤️
+                </p>
+                <p style="font-size: 1rem; color: #333; margin-top: 10px;">Nos vemos el 14 ✨</p>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
